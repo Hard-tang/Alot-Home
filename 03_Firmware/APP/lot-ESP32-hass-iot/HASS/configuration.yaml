@@ -1,0 +1,76 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+
+mqtt:
+# 传感器
+  sensor:
+# 厨房温度
+    - name: "厨房-温度"
+      state_topic: "esp32/normalization/sensor1"
+      suggested_display_precision: 1  # 小数点后保留一位
+      unit_of_measurement: "°C" # 单位
+      value_template: "{{ value_json.temperature }}"  # 传感器数据
+      availability:
+        - topic: "esp32/state"  # 传感器状态
+      unique_id: 00001
+# 厨房甲烷浓度
+    - name: "厨房-甲烷"
+      state_topic: "esp32/normalization/sensor1"
+      unit_of_measurement: "ppm"
+      value_template: "{{ value_json.methane }}"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 00002
+# 厨房--CO
+    - name: "厨房-CO"
+      state_topic: "esp32/normalization/sensor1"
+      unit_of_measurement: "%"
+      value_template: "{{ value_json.Co }}"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 00003
+
+  # 二元传感器
+  binary_sensor:
+# 浴室传感器
+    - name: "地面积水预警"
+      state_topic: "esp32/mechanical_arm/pump"
+      payload_on: "ON"
+      payload_off: "OFF"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 10000
+# 客厅门状态指示
+    - name: "客厅-门"
+      state_topic: "esp32/mechanical_arm/pump"
+      payload_on: "ON"
+      payload_off: "OFF"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 10001
+# 客厅状态指示
+    - name: "客厅-窗"
+      state_topic: "esp32/mechanical_arm/pump"
+      payload_on: "ON"
+      payload_off: "OFF"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 10002
+# 窗户红外检测
+    - name: "小孩安全预警-窗户"
+      state_topic: "esp32/mechanical_arm/pump"
+      payload_on: "ON"
+      payload_off: "OFF"
+      availability:
+        - topic: "esp32/state"
+      unique_id: 10003
