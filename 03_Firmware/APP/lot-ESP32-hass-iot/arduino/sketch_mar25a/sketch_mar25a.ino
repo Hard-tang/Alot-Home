@@ -62,7 +62,12 @@ void loop() {
   client.loop();
 
   // 模拟传感器数据（实际使用时替换为真实传感器读数）
-  float temperature = 25.5; 
+  static float temperature = 50; 
+  temperature += 1;
+  if(temperature >= 100)
+  {
+    temperature = 50;
+  }
   
   // 创建JSON文档
   DynamicJsonDocument doc(256);
@@ -77,5 +82,5 @@ void loop() {
   Serial.print("Published: ");
   Serial.println(jsonBuffer);
   
-  delay(5000); // 10秒发送间隔
+  delay(2000); // 10秒发送间隔
 }
